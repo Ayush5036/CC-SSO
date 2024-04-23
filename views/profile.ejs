@@ -1,0 +1,84 @@
+<%- include('partials/header') -%>
+
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+    color: #333;
+  }
+  .container {
+    width: 80%;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  h1 {
+    color: #333;
+  }
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  li {
+    background: #fff;
+    border: 1px solid #ddd;
+    margin-top: 5px;
+    padding: 10px;
+    position: relative;
+  }
+  form {
+    display: inline;
+  }
+  button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    background-color: #5CDB95;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #379683;
+  }
+  input[type="text"] {
+    padding: 8px;
+    width: 70%;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  }
+  .completed {
+    color: #aaa;
+    text-decoration: line-through;
+  }
+</style>
+
+<div class="container">
+  <h1 class="text-4xl mb-4">Plan Manager</h1>
+
+  <ul>
+    <% todos.forEach(todo => { %>
+      <li>
+        <span class="<%= todo.completed ? 'completed' : '' %>"><%= todo.title %></span>
+        <% if (!todo.completed) { %>
+          <form method="POST" action="/todo/<%= todo._id %>/complete">
+            <button type="submit">Mark as Completed</button>
+          </form>
+        <% } %>
+        <form method="POST" action="/todo/<%= todo._id %>/delete">
+          <button type="submit">Delete</button>
+        </form>
+      </li>
+    <% }) %>
+  </ul>
+
+  <form method="POST" action="/profile">
+    <input type="text" name="title" placeholder="Add new to-do item" required>
+    <button type="submit">Add</button>
+  </form>
+</div>
+
+<%- include('partials/footer') -%>
